@@ -1,0 +1,9 @@
+package java_pixel_paint;
+
+
+import javax.swing.JFrame;
+
+
+public class PixelArtFrame extends JFrame{
+
+}
