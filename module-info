@@ -1,0 +1,10 @@
+/**
+ * 
+ */
+/**
+ * 
+ */
+//Must let java know that we need to use the desktop in this project, otherwise there will always be an error on JFrame
+module java_pixel_paint {
+	requires java.desktop;
+}
