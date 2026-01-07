@@ -17,6 +17,16 @@ public class PixelArtFrame extends JFrame{
 		//must be done so that when the window is closed the program does not continue running
 		setLocationRelativeTo(null);
 		//must be done so that the window does not end up in some random spot on the screen
+		
+		//create a grid 32 x 32 and set each pixel color to zero
+		PixelGrid grid = new PixelGrid(32, 32, 0xFFFFFFFF);
+		//formats the grid
+		CanvasPanel canvas = new CanvasPanel(grid, 20);
+		//makes panel part of window
+		add(canvas);
+		//size the window to properly fit everything
+		pack();
+		
 		setVisible(true);
 		//must be done so that the window actually appears - not just exist as an idea
 	}
