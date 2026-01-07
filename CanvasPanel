@@ -1,0 +1,89 @@
+package java_pixel_paint;
+
+//imports JPanel to allow this class to become a drawable surface that swing knows how to display in a window
+import javax.swing.JPanel;
+
+//imports to allow drawings
+import java.awt.Graphics;
+
+//imports a way to describe colors to Java
+import java.awt.Color;
+
+//import to allow user interactions with the window
+import java.awt.event.MouseEvent;
+
+//import helper class to handle mouse events
+import java.awt.event.MouseAdapter;
+
+//extend JPanel so that this class is a kind of JPanel
+public class CanvasPanel extends JPanel{
+	
+	//initialize variables
+    private final PixelGrid grid;
+    private final int cellSize;
+    // Stores the currently selected paint color used when the user clicks on the canvas
+    private int currentColor = 0xFF000000;
+    
+    //create a constructor
+    public CanvasPanel(PixelGrid grid, int cellSize) {
+        this.grid = grid;
+        this.cellSize = cellSize;
+
+    	//set width and height by multiplying cells by columns and rows
+    	int width = grid.getColumns() * cellSize;
+    	int height = grid.getRows() * cellSize;
+    	
+    	//create the grid area by multiplying l * w
+        setPreferredSize(new java.awt.Dimension(width, height));
+    
+    	//notify the panel when mouse events happen on it
+    	addMouseListener(new MouseAdapter() {
+    		@Override
+    	    public void mousePressed(MouseEvent e) {
+    			//get the position of the click
+    			int x = e.getX();
+    			int y = e.getY();
+    			
+    			//convert mouse position into a cell
+    			int col = x / cellSize;
+    		    int row = y / cellSize;
+    		    
+    		 // Ensure the calculated row and column are within the grid bounds.
+    		 // If the click is outside the drawable area, exit early to avoid accessing invalid array indices and crashing the program.
+    		 if (row < 0 || row >= grid.getRows() || col < 0 || col >= grid.getColumns()) {
+    		     return;}
+    			
+    		 //in PixelGrid store the color for this pixel
+    		 grid.setPixel(row, col, currentColor);
+    		 //repaint the canvas with updated color
+    		 repaint();
+    		 
+    		}});}
+    
+    //override paintComponent to draw custom graphics on a panel
+    @Override
+    protected void paintComponent(Graphics g) {
+    	//clear the stage
+    	super.paintComponent(g);
+    	//draw
+    	for (int r = 0; r < grid.getRows(); r++) {
+    	    for (int c = 0; c < grid.getColumns(); c++) {
+    	    	
+    	    	//getting the color of each pixel to the one referenced
+    	    	g.setColor(new Color(grid.getPixel(r, c), true));
+    	    	//fill the color of each pixel
+    	    	g.fillRect(c * cellSize, r * cellSize, cellSize, cellSize);
+
+    	    	//create the border
+    	    	g.setColor(Color.LIGHT_GRAY);
+    	    	g.drawRect(c * cellSize, r * cellSize, cellSize, cellSize);
+    	    }}
+
+    	
+    //handle mouse input in this class as this is the class that the mouse is interacting with
+    	
+    	
+    	
+    	
+    }
+}
