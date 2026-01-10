@@ -1,4 +1,6 @@
-package java_pixel_paint;
+package pixel_paint;
+
+import java.util.ArrayDeque;
 
 public class PixelGrid {
 	
@@ -36,6 +38,46 @@ public class PixelGrid {
 	public void setPixel(int row, int col, int color) {
 	    pixels[row][col] = color;}
 	
+	public void floodFill(int startRow, int startCol, int newColor) {
+	    // bounds check
+	    if (startRow < 0 || startRow >= rows || startCol < 0 || startCol >= columns) {
+	        return;
+	    }
 
+	    int targetColor = pixels[startRow][startCol];
+
+	    // If the target color is already the new color, nothing to do
+	    if (targetColor == newColor) {
+	        return;
+	    }
+
+	    ArrayDeque<int[]> stack = new ArrayDeque<>();
+	    stack.push(new int[] { startRow, startCol });
+
+	    while (!stack.isEmpty()) {
+	        int[] cell = stack.pop();
+	        int r = cell[0];
+	        int c = cell[1];
+
+	        // skip out-of-bounds
+	        if (r < 0 || r >= rows || c < 0 || c >= columns) {
+	            continue;
+	        }
+
+	        // only fill cells that match the original clicked color
+	        if (pixels[r][c] != targetColor) {
+	            continue;
+	        }
+
+	        // fill this cell
+	        pixels[r][c] = newColor;
+
+	        // push neighbors (4-direction)
+	        stack.push(new int[] { r - 1, c });
+	        stack.push(new int[] { r + 1, c });
+	        stack.push(new int[] { r, c - 1 });
+	        stack.push(new int[] { r, c + 1 });
+	    }
+	}
 
 }
