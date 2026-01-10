@@ -1,14 +1,30 @@
-package java_pixel_paint;
+package pixel_paint;
 
 //import the JFrame class from Java's swing library
 //JFrame is the class with the window
 //Swing is Java's built in GUI library by Oracle
 import javax.swing.JFrame;
 
+//import to add a clickable button
+import javax.swing.JButton;
+
+//import to create a popup color picker dialog
+import javax.swing.JColorChooser;
+
+//import to create a container to hold tool bar buttons
+import javax.swing.JPanel;
+
+//import to represent chosen color
+import java.awt.Color;
+
+//import to let us place toolbar at top and canvas in the center
+import java.awt.BorderLayout;
+
 
 public class PixelArtFrame extends JFrame{
 	
-	
+	private CanvasPanel canvas;
+
 	//create a constructor for every new frame
 	public PixelArtFrame() {
 		setTitle("Pixel Painter");
@@ -21,14 +37,39 @@ public class PixelArtFrame extends JFrame{
 		//create a grid 32 x 32 and set each pixel color to zero
 		PixelGrid grid = new PixelGrid(32, 32, 0xFFFFFFFF);
 		//formats the grid
-		CanvasPanel canvas = new CanvasPanel(grid, 20);
-		//makes panel part of window
-		add(canvas);
+		canvas = new CanvasPanel(grid, 20);
+		//makes panel part of window with toolbar and canvas centered
+		JPanel toolbar = new JPanel();
+		JButton colorButton = new JButton("Color");
+		JButton fillButton = new JButton("Fill");
+		JButton eraserButton = new JButton("Eraser");
+		//create a statement for using eraser button
+		eraserButton.addActionListener(e -> {
+		    canvas.setCurrentColor(0xFFFFFFFF); });
+		toolbar.add(eraserButton);
+		//create a statement for when the color button gets clicked
+		colorButton.addActionListener(e -> {
+		    Color chosen = JColorChooser.showDialog(this, "Choose a color", Color.BLACK);
+		    if (chosen != null) {
+		        canvas.setCurrentColor(chosen.getRGB());}});
+		//creates a satement for when the fill button gets clicked
+		fillButton.addActionListener(e -> {
+		    canvas.setFillMode(true);});
+		toolbar.add(fillButton);
+		toolbar.add(colorButton);
+		setLayout(new BorderLayout());
+		add(toolbar, BorderLayout.NORTH);
+		add(canvas, BorderLayout.CENTER);
 		//size the window to properly fit everything
 		pack();
-		
 		setVisible(true);
 		//must be done so that the window actually appears - not just exist as an idea
+		
+	
+	
 	}
+
+	
+	
 
 }
