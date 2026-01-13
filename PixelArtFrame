@@ -5,6 +5,9 @@ package pixel_paint;
 //Swing is Java's built in GUI library by Oracle
 import javax.swing.JFrame;
 
+//import to change the border 
+import javax.swing.BorderFactory;
+
 //import to add a clickable button
 import javax.swing.JButton;
 
@@ -13,6 +16,10 @@ import javax.swing.JColorChooser;
 
 //import to create a container to hold tool bar buttons
 import javax.swing.JPanel;
+
+//import to change font
+import javax.swing.UIManager;
+import java.awt.Font;
 
 //import to represent chosen color
 import java.awt.Color;
@@ -66,7 +73,33 @@ public class PixelArtFrame extends JFrame{
 		//must be done so that the window actually appears - not just exist as an idea
 		
 	
-	
+		//now we will design this all to make it look as cute as possible
+		// Pastel UI palette
+		Color BG_PINK = new Color(255, 235, 240);
+		Color PANEL_PINK = new Color(250, 220, 230);
+		Color GRID_LINE = new Color(230, 200, 215);
+		Color BUTTON_PINK = new Color(255, 200, 215);
+		Color BUTTON_BORDER = new Color(240, 170, 190);
+		//setting different colors 
+		toolbar.setBackground(PANEL_PINK);
+		getContentPane().setBackground(BG_PINK);
+		//making the buttons rounded and less harsh
+		colorButton.setBackground(BUTTON_PINK);
+		colorButton.setFocusPainted(false);
+		colorButton.setBorder(
+		    BorderFactory.createLineBorder(BUTTON_BORDER, 2, true));
+		eraserButton.setBackground(BUTTON_PINK);
+		eraserButton.setFocusPainted(false);
+		eraserButton.setBorder(
+		    BorderFactory.createLineBorder(BUTTON_BORDER, 2, true));
+		fillButton.setBackground(BUTTON_PINK);
+		fillButton.setFocusPainted(false);
+		fillButton.setBorder(
+		    BorderFactory.createLineBorder(BUTTON_BORDER, 2, true));
+		//setting a pixelated font
+		Font uiFont = new Font("Dialog", Font.PLAIN, 13);
+		UIManager.put("Button.font", uiFont);
+		UIManager.put("Label.font", uiFont);
 	}
 
 	
