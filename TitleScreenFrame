@@ -1,0 +1,54 @@
+package java_pixel_paint;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class TitleScreenFrame extends JFrame {
+
+    public TitleScreenFrame() {
+        setTitle("Pixel Painter ✨");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        SplashPanel panel = new SplashPanel();
+        add(panel);
+
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+
+        // Click anywhere to start
+        panel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                dispose();          // close title screen
+                new PixelArtFrame(); // open your drawing app
+            }
+        });
+    }
+
+    private static class SplashPanel extends JPanel {
+        private final Image splash;
+
+        public SplashPanel() {
+        	
+        	java.net.URL url = TitleScreenFrame.class.getResource("/java_pixel_paint/splash.png");
+        	if (url == null) {
+        	    throw new RuntimeException("Couldn't find splash.png. Make sure it's in src/java_pixel_paint/");
+        	}
+        	splash = new ImageIcon(url).getImage();
+            setPreferredSize(new Dimension(
+                    splash.getWidth(null),
+                    splash.getHeight(null)
+            ));
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(splash, 0, 0, this);
+        }
+    }
+}
